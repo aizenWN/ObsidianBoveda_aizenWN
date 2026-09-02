@@ -24,7 +24,17 @@ Esta nota es una guia de configuración para conectar nuestra boveda de [[Obsidi
 
 3. Instalar [[Git]] en nuestra computadora.
 ### Usuarios Windows
-
+1. Descarga  **Git for Windows** desde su pagina oficial: https://git-scm.com/install/windows
+2. Durante la instalacion puedes dejar todas las opcionespor defecto.
+3. Al terminar, abrimos **[[CMD]]** (Presionar la tecla Windows y escribirmos CMD, es la terminal de Windows).
+4. Verificamos con: `git --version`. Deberia mostrar algo como `git version 2.x.x`
+5. Descargamos e instalamos **GitHub CLI** (`gh`) con el siguiente comando: `winget install --id GitHub.cli` en la misma terminal **CMD**.
+6. Verificamos con `gh --version`.
+7. Iniciamos sesion en **GitHub** ejecutando: `gh auth login` y seleccionamos:
+	1. GitHub.com
+	2. HTTPS
+	3. Login with a web browser
+8. EL navegador 
 
 ### Usuarios [[Linux]]
 1. ``sudo apt install git``.
