@@ -34,8 +34,18 @@ Esta nota es una guia de configuración para conectar nuestra boveda de [[Obsidi
 	1. GitHub.com
 	2. HTTPS
 	3. Login with a web browser
-8. EL navegador 
-
+8. EL navegador se abrira para iniciar sesion y autorizar el dispositivo.
+9. Verificamos con: `gh auth status`.
+10. Configurar la identidad de **Git**:
+		Cada integrante debe usar su propio nombre y correo (Cuenta de GitHub)
+	1. git config --global user.name "Nombre del integrante"
+	2. git config --global user.email "correo_integrante@ejemplo.com"
+11. Clonar la boveda desde GitHub, elegimos la carpeta donde queremos guardar la nueva Boveda:
+	1. `cd C:\Users\Nombre\Documentos\Obsidian`
+12. ``git clone ``
+13. Abrir esa carpeta en Obsidian como Boveda.
+14. Activar complementos comunitarios / confiar en en los complementos y el autor de la Boveda.
+15. Verificar que este activo el plugin **Git / Obsidian Git** posiblemente en último lugar de la barra lateral izquierda.
 ### Usuarios [[Linux]]
 1. ``sudo apt install git``.
 2. ``sudo apt install gh``(Instalar GitHub CLI).
@@ -52,7 +62,7 @@ Esta nota es una guia de configuración para conectar nuestra boveda de [[Obsidi
 	
 5. Clonar la boveda en una carpeta local:
 		1. cd mi_usuario/TallerRobotico
-		2. git clone https://github.com/aizenWN/ObsidianBoveda_aizenWN.git ObsidianEquipo.
+		2. git clone  ObsidianEquipo.
 6. Abrir esa carpeta en Obsidian como Boveda.
 7. Activar complementos comunitarios / confiar en en los complementos y el autor de la Boveda.
 8. Verificar que este activo el plugin **Git / Obsidian Git** posiblemente en último lugar de la barra lateral izquierda.
