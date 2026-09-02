@@ -1,0 +1,23 @@
+{
+  "normalize": {
+    "caseInsensitive": true,
+    "matchBaseForm": true
+  },
+  "skip": {
+    "frontmatter": true,
+    "fencedCode": true,
+    "inlineCode": true,
+    "existingLinks": true,
+    "headings": false,
+    "math": true,
+    "tables": true,
+    "tags": true
+  },
+  "oneLinkPerFile": true,
+  "onSave": true,
+  "includeGlobs": [],
+  "excludeGlobs": [],
+  "masterlistEnabled": true,
+  "masterlistPath": "",
+  "writeBackAliases": true
+}

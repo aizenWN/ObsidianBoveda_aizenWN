@@ -1,0 +1,51 @@
+{
+  "collapse-filter": true,
+  "search": "",
+  "showTags": false,
+  "showAttachments": false,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": true,
+  "colorGroups": [
+    {
+      "query": "path:\"03 - Proyects\"  ",
+      "color": {
+        "a": 1,
+        "rgb": 65505
+      }
+    },
+    {
+      "query": "path:\"02 - Brain/Notas principales\"  ",
+      "color": {
+        "a": 1,
+        "rgb": 16759552
+      }
+    },
+    {
+      "query": "file:Capa",
+      "color": {
+        "a": 1,
+        "rgb": 5062235
+      }
+    },
+    {
+      "query": "[\"relacionado\":Electronica",
+      "color": {
+        "a": 1,
+        "rgb": 5525814
+      }
+    }
+  ],
+  "collapse-display": true,
+  "showArrow": false,
+  "textFadeMultiplier": -1.9,
+  "nodeSizeMultiplier": 1.2484375,
+  "lineSizeMultiplier": 1.98854166666667,
+  "collapse-forces": true,
+  "centerStrength": 0.296875,
+  "repelStrength": 11.9791666666667,
+  "linkStrength": 1,
+  "linkDistance": 500,
+  "scale": 0.42534735320005873,
+  "close": true
+}
