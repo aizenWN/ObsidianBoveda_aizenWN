@@ -80,7 +80,26 @@ Despues bajar hasta el final de nuestro navegador izquierdo y seleccionar **Git*
 Ahi ya pueden buscar las configuraciones anteriormente mencionadas.
 
 # IMPORTANTE / README
-Si se siguieron correctamente los pasos, cada vez que abres **Obsi
+Si se siguieron correctamente los pasos, cada vez que abres **Obsidian** se deberian descargar automaticamente los archivos actualizados de la Boveda, pero también es importante verificar que esto está funcionando correctamente.
+![[Pasted image 20260902150736.png]]
+El plugin de **Git** es el último de la barra lateral izquierda, al presionarlo, se abre una nueva pestaña a la derecha como esta:
+![[Pasted image 20260902150823.png]]
+Si nos fijamos bien, uno de sus iconos en la parte superior es una flecha apuntando hacia abajo, este es nuestro **pull**, nos actualiza todos los cambios que hay en el repositorio, aunque en teoria ya se configuro para hacerlo de manera automatica, hay que corroborarlo con ese icono al inicio.
+
+Tambien es **IMPORTANTE** que de momento no se actualiza de manera automatica, cada cambio que haces, se guarda en tu dispositivo personal, así que se tiene que seguir los siguientes pasos para **Subir tus actualizaciones al repositorio**:
+
+Si seguimos observando la imagen anterior, vemos que en color Rosado / Rojo dice Changes, estos son los cambios que hay dentro de la boveda, el archivo de abajo (Configu...), a su lado derecho aparece una "M", esto significa el estado en el que se encuentra ese cambio dentro del repositorio, varios indicaciones:
+
+- M = Modified (Modificada)
+- U = Untracked (No a sido registrada por Git)
+- +2 = Dos cambios pendientes
+- D = Deleted
+
+El flujo correcto para guardar tus archivos es el siguiente:
+
+1. Simbolo de "+" dentro de un circulo, este actualiza los cambios que hay en la boveda.
+2. SImbolo de "palomita" (commit), este añade todas las actualizaciones al pa
+
 
 ---
 # Referencias
