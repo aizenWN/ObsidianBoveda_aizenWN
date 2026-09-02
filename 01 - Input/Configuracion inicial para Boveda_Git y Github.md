@@ -82,7 +82,7 @@ Ahi ya pueden buscar las configuraciones anteriormente mencionadas.
 # IMPORTANTE / README
 Si se siguieron correctamente los pasos, cada vez que abres **Obsidian** se deberian descargar automaticamente los archivos actualizados de la Boveda, pero también es importante verificar que esto está funcionando correctamente.
 ![[Pasted image 20260902150736.png]]
-El plugin de **Git** es el último de la barra lateral izquierda, al presionarlo, se abre una nueva pestaña a la derecha como esta:
+El plugin de **Git** es el último de la barra lateral izquierda (*2 lineas con circulitos, una hacia aariba y otra hacia abajo*), al presionarlo, se abre una nueva pestaña a la derecha como esta:
 ![[Pasted image 20260902150823.png]]
 Si nos fijamos bien, uno de sus iconos en la parte superior es una flecha apuntando hacia abajo, este es nuestro **pull**, nos actualiza todos los cambios que hay en el repositorio, aunque en teoria ya se configuro para hacerlo de manera automatica, hay que corroborarlo con ese icono al inicio.
 
@@ -95,11 +95,39 @@ Si seguimos observando la imagen anterior, vemos que en color Rosado / Rojo dice
 - +2 = Dos cambios pendientes
 - D = Deleted
 
-El flujo correcto para guardar tus archivos es el siguiente:
+### Flujo correcto para guardar tus archivos:
 
-1. Simbolo de "+" dentro de un circulo, este actualiza los cambios que hay en la boveda.
-2. SImbolo de "palomita" (commit), este añade todas las actualizaciones al pa
+- **Símbolo “+” dentro de un círculo — Preparar cambios**  
 
+Este botón agrega los archivos modificados a la lista de cambios que se incluirán en el siguiente guardado de Git.
+    
+- **Escribir un mensaje de commit**  
+
+ Antes de guardar los cambios, escribe una descripción corta de lo que hiciste. Por ejemplo:
+    
+    - `Agrega notas de reunión`
+        
+    - `Actualiza documentación de Circuitos`
+        
+    - `Elimina archivos obsoletos`
+        
+>Este mensaje sirve para identificar fácilmente qué se modificó en cada versión.
+    
+- **Símbolo de palomita “✓” — Commit**  
+Guarda los cambios preparados dentro del **repositorio local de tu computadora**, junto con el mensaje que escribiste. En este punto los cambios ya tienen una versión registrada, pero todavía no están en GitHub.
+    
+- **Símbolo de flecha hacia arriba “↑” — Push**  
+Envía los commits de tu computadora al **repositorio remoto en GitHub**, permitiendo que los demás integrantes puedan recibirlos.
+
+>EL flujo se resume de la siguiente manera:
+>+                        (Selecciono los cambios)
+>Mensaje          (Explico el que hice)
+>✓                       (Los guardo en Git)
+>↑                       (Los subo a GitHub)
+
+Aclariaciones:
+>**Pull = traer cambios desde GitHub hacia tu computadora.**  
+**Push = enviar tus cambios desde tu computadora hacia GitHub.**
 
 ---
 # Referencias
