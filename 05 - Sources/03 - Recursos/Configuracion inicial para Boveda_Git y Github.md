@@ -151,4 +151,4 @@ Aclariaciones:
 
 ---
 # Referencias
-Para cambiar de Login en Git automática o manualmente según la Bóveda consultar la nota:[[Switch Git Count]].
+Para cambiar de Login en Git automática o manualmente según la Bóveda consultar la nota:[[Switch Git Acount]].
