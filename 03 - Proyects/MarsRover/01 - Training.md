@@ -114,6 +114,14 @@ Relacion muchos a uno (N a 1)
 Asi se declara que sea asincrono el client
 future = self.client_.call_async(request)
 
+### Herramientas de debuggeo
+- ros2 service list (muestra los servicios que existen)
+- ros2 service type /sumador
+- ros2 service find /example_interfaces/srv/AddTwoInts (servicio)
+- ros2 interface show example_interfaces/srv/AddTwoInts
+- ros2 interface list | grep msg/actions/
+- rqt_graph (está interfaz para observar la comunicacion)
+
 
 
 # Por organizar
@@ -126,7 +134,11 @@ __init__.py  primer_nodo.py
 aizen@asus-vivobook:/Data/mars_rover/ros2_ws/src/training_uno/training_uno$ 
 
 
->Nota: siempre abrir el VSC dentro de src (/Data/mars_rover/ros2_ws/src code . )
+>Nota: siempre abrir el VSC dentro de src (/Data/mars_rover/ros2_ws/src code .)
+
+# PYTHON O C++
+Python para calculos pesado
+C++ cuando son cosas de driver, comunicasion con hardware
 
 
 ---
