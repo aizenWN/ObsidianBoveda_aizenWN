@@ -49,7 +49,31 @@ rclcpp (Codigo en C++)
 
 Se comunican sin problemas
 
-## 
+## ALT + CTRL + T
+Atajo de teclado para abrir nueva terminal
+
+## Cambiar termporalmente el nombre de nodo
+```
+ros2 run training_uno primer_nodo --ros-args -r __node:= <nuevo_nombre>
+```
+## Comando para crear ejecutable en nodos python
+```
+Para crear ejecutable en archivo de python: chmod +x primer_nodo.py
+```
+ls
+Si cambia de color a amarillo se volvio ejecutable
+
+## Topicos
+
+### python
+
+
+
+
+
+
+
+
 
 # Por organizar
 aizen@asus-vivobook:/Data/mars_rover/ros2_ws/src/training_uno$ touch primer_nodo.py
