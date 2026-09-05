@@ -402,21 +402,12 @@ for i in range(graymod.shape[0]):
 		grayad[i, j] = ((graymod[i, j] - bajo) / (alto - bajo)) * 255
 ```  
 
-
-
+4. Finalmente volvemos a asegurarnos que nuestra imagen es `uint8`y la mostramos:
 ```python
 grayad = grayad.astype('uint8')
-
-# plothist(0, graymod)
-
-# plothist(1, grayad)
-
-# cv2.imshow("fig0", graymod)
-
 cv2.imshow("Adaptacion Automatica", grayad)
 ```
-
-
+Podemos abrir `graymod`ya que es la imagen que queremos arreglar para comparar.
 
 
 ---
