@@ -67,7 +67,17 @@ Si cambia de color a amarillo se volvio ejecutable
 
 ### python
 
+## comandos terminal para ros2
+Si das bloque tab aparecen las opciones que tiene cada comando
+Ejemplo: ros2 topi (tab x2) despliega: echo, list, etc.
 
+- ros2 node list
+- ros2 node info /noticiero_2
+- ros2 topic list
+- ros2
+- ros2 topic hz (frecuencia con la que publica)
+- ros2 topic bw (ancho de banda / en el [[Sensor Lidar|lidar]] consume mucho ancho de banda a la hora de enviar datos)
+- 
 
 
 
