@@ -33,6 +33,31 @@ Para OpenCV, una imagen no es más que una matriz de números (gracias a Numpy e
 - Una imagen a color (RGB) es una matriz de 3D (alto x ancho x 3 canales).
 - OpenCV carga por defecto las imágenes a color en formato BGR (Azul, Verde, Rojo) y no en el estándar RGB.
 
+## Librerías
+```Python
+import cv2
+import numpy as np
+import math
+from matplotlib import pyplot as plt
+```
+
+| Libreria          | Descripcion                                                                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| cv2               | Liberia principal de Visión por Computadora (Procesa y manipula imagene o video en tiempo real.)                                                      |
+| numpy             | Para calculo numérico y manejo de arreglos de datos (Matriz de datos gigantes como lo es una imagen de cv2)                                           |
+| math              | Funciones matemáticas avanzadas (formulas geométricas, trigonométricas, etc.)                                                                         |
+| matplotlib        | Paquete gigante de Python que contiene cientos de herramientas para diseño gráfico, renderizado 3D, exportación de archivos y creación de interfaces. |
+| matplotlib.pyplot | Especializada en visualizar datos y graficas.                                                                                                         |
+
+### matplotlib.pyplot as plt
+```python
+plt.clf()
+```
+Esto limpia la figura actual de matplotlib.
+Como en este contexto se usa dentro de `while`, si no se limpia, cada nuevo histograma se iría dibujando encima del anterior.
+
+
+
 ## Procesar vídeo de la cámara
 Para abrir y procesar el vídeo de una cámara en tiempo real en Python, necesitas dos librerías fundamentales:
 - ``opencv-python (cv2)``: Es la librería principal.
@@ -41,7 +66,7 @@ Para abrir y procesar el vídeo de una cámara en tiempo real en Python, necesit
 > **Nota**: math también es una librería muy utilizada dentro de OpenCV
 
 **Código Mínimo para su Funcionamiento:**
-```
+```python
 import cv2
 
 # 0 indica la cámara predeterminada de la laptop/equipo (puedes probar 1 o 2 si tienes webcams externas)
@@ -106,7 +131,7 @@ Como se pueden llegar a utilizar operaciones matemáticas pixel por pixel (rotac
 (sin espacio entre el guion bajo y coma)
 
 En el siguiente código podemos observar lo siguiente:
-```
+```python
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
@@ -122,7 +147,7 @@ dimensions = src.shape  # (filas, columnas, canales)
 Como podemos observar en la verificación del `if src is None.
 Podemos ver el comando antes mencionado de titular, el objeto `cap` es una instancia de la clase `cv2.VideoCapture`. 
 
-El método `.read()` ya fue descrito en los conceptos clave de **Procesar video de la cámara** más arriba, solo que no se interesaba guardar el primer valor `ret` por ellos simplemente se escribió como `_,`, se interesaba solamente guardar el segundo valor `frame`.
+El método `.read()` ya fue descrito en los conceptos clave de **Procesar vídeo de la cámara** más arriba, solo que no se interesaba guardar el primer valor `ret` por ellos simplemente se escribió como `_,`, se interesaba solamente guardar el segundo valor `frame`.
 #### src.shape
 En Python, cualquier imagen de OpenCV es una matriz NumPy. La propiedad `.shape` nos entrega la estructura o las dimensiones de esa matriz en forma de tupla:
 
@@ -132,7 +157,7 @@ En Python, cualquier imagen de OpenCV es una matriz NumPy. La propiedad `.shape`
 - **Columnas (`dimensions[1]`):** El ancho de la imagen en píxeles (320).
 - **Canales (`dimensions[2]`):** La cantidad de capas de color (3 para BGR: Azul, Verde, Rojo).
 
-Esto nos sirve para medir él tamaño del video entrante antes de iniciar el bucle y así calcular el tamaño que debía tener la ventana o la matriz de salida.
+Esto nos sirve para medir él tamaño del vídeo entrante antes de iniciar el bucle y así calcular el tamaño que debía tener la ventana o la matriz de salida.
 
 ## Cargar Imagen
 Para lograr cargar una imagen, hay que cuidar que la ruta en la que se encuentra no tenga caracteres especiales, así como este dentro del disco duro y no en carpetas como *OneDrive*, la manera más fácil de hacerlo es copiar la ruta de la imagen, y copearla en `imread
@@ -143,7 +168,7 @@ como cadena *raw* de la siguiente manera:
 Agregando una "r" al inicio de la ruta, también recuerda agregar la extensión de la imagen (jpg, png, etc.).
 
 **Código Mínimo**:
-```
+```python
 imagen = cv2.imread(r"C:\Users\aizen\Downloads\anime-girls-short-hairs-7h.jpg")
  
 if imagen is None:
@@ -179,7 +204,7 @@ Cuando se ejecuta el comando anterior por si solo, se crea un "cascaron" de la v
 
 **Como Evitarlo**
 Se debe de acompañar con un pequeño bucle con `cv2.waitKey()`:
-```
+```python
 import cv2
 
 # 1. Crear la ventana
@@ -205,7 +230,7 @@ cv2.destroyAllWindows()
 Son el componente de interfaz nativo que tiene OpenCV para interactuar con los algoritmos de forma más dinámica sin depender de librerías externas de GUI (como Tkinter o PyQt).
 
 Las Trackbars se instancian justo después de registrar la ventana receptora:
-```
+```python
 cv2.namedWindow('Figura 2')
 
 cv2.createTrackbar('theta', 'Figura 2', 0, 700, rot)
@@ -228,8 +253,8 @@ cv2.createTrackbar('s', 'Figura 2', 200, 400, scale)
 > Lo estándar es llamarla nada, nothing, on_change y reutilizarla en todos los controles (Trackbar).
 
 #### Flujo de lectura dentro del bucle principal
-Crear el control solo dibuja el deslizador. Para extraer su valor numérico en cada fotograma del video, podemos utilizar la función `cv2.getTrackbarPos()` dentro de nuestro bucle principal `while True:
-```
+Crear el control solo dibuja el deslizador. Para extraer su valor numérico en cada fotograma del vídeo, podemos utilizar la función `cv2.getTrackbarPos()` dentro de nuestro bucle principal `while True:
+```python
 # Extracción de valores en tiempo real
 
 theta = int(cv2.getTrackbarPos('theta', 'Figura 2'))
