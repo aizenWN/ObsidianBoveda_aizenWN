@@ -77,9 +77,20 @@ Ejemplo: ros2 topi (tab x2) despliega: echo, list, etc.
 - ros2
 - ros2 topic hz (frecuencia con la que publica)
 - ros2 topic bw (ancho de banda / en el [[Sensor Lidar|lidar]] consume mucho ancho de banda a la hora de enviar datos)
+- ros2 interface show
+- rqt (Nos abre (algo) nos vamos a la partes de plugins/topics/message publisher) por corroborar
+- rqt_graph (Creo que podemos ver  como está la conexion entre publisher y suscribers, algo asi)
 - 
 
+## Clientes y servicios
 
+### servicio 
+tienen la siguiente estructura: 
+int64 a REQUESTlo que envía el client
+int64 b client
+int a+b RESPONDE lo que el service responde
+
+Son bidireccionales, el client le envía información al service y el service al client, 
 
 
 
