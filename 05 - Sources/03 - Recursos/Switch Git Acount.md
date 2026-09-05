@@ -1,8 +1,13 @@
 ---
 aliases:
 tags:
-Creado:
+  - Git
+  - GitHub
+Creado: 2026-09-04
 Relacionado:
+  - Linux
+  - Programacion
+  - Repositorio
 ---
 # Introducción
 
