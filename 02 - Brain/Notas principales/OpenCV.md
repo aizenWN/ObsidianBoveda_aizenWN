@@ -33,8 +33,8 @@ Para OpenCV, una imagen no es más que una matriz de números (gracias a Numpy e
 - Una imagen a color (RGB) es una matriz de 3D (alto x ancho x 3 canales).
 - OpenCV carga por defecto las imágenes a color en formato BGR (Azul, Verde, Rojo) y no en el estándar RGB.
 
-## Procesar video de la cámara
-Para abrir y procesar el video de una cámara en tiempo real en Python, necesitas dos librerías fundamentales:
+## Procesar vídeo de la cámara
+Para abrir y procesar el vídeo de una cámara en tiempo real en Python, necesitas dos librerías fundamentales:
 - ``opencv-python (cv2)``: Es la librería principal.
 - ``numpy``: OpenCV maneja cada fotograma de la cámara como una matriz numérica. NumPy es la librería que maneja estas matrices de forma ultra rápida y es un requisito obligatorio para que OpenCV funcione.
 
@@ -93,8 +93,8 @@ Si solo escribimos `cap = cv2.VideoCapture(0)`, OpenCV intentara abrir la cámar
 
 `cv2.CAP_DSHOW` fuerza a OpenCV a usar **DirectShow** (la API nativa de audio y video de Windows). Esto abre la cámara de manera instantánea y sin conflictos de controladores.
 
-#### frame.set(cv2.CAP_PROP_FRAME)
-El método `frame.set`.
+#### cap.set(cv2.CAP_PROP_FRAME)
+El método `cap.set`.
 `VideoCapture` no solo lee la cámara, también permite configurar sus propiedades de hardware. Con `cap.set()` se define la resolución de captura antes de empezar a procesar fotogramas:
 - `cv2.CAP_PROP_FRAME_WIDTH, 320`: Ajusta el ancho a 320 píxeles.
 - `cv2.CAP_PROP_FRAME_HEIGHT, 240`: Ajusta la altura a 240 píxeles.
