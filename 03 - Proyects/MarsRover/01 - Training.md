@@ -84,15 +84,35 @@ Ejemplo: ros2 topi (tab x2) despliega: echo, list, etc.
 
 ## Clientes y servicios
 
-### servicio 
-tienen la siguiente estructura: 
-int64 a REQUESTlo que envía el client
+### ROS 2 Service
+Tienen la siguiente estructura: 
+
+AddTwoInts
+
+int64 a REQUEST (lo que envía el client)
 int64 b client
-int a+b RESPONDE lo que el service responde
+|
+v
+int a+b RESPONSE (lo que el service responde)
 
 Son bidireccionales, el client le envía información al service y el service al client, 
 
+#### Comunicacion Sincrona
+El cliente se queda congelado hasta que el service recibe una respues (no es recomendable usarlo nunca)
+Si por alguna razon el service está caido, el client se queda congelado
 
+#### Comunicacion asincrona
+No se queda congelado
+
+### Client
+Es el comensal que lee el menu, decide que quiere y le pide la oprdean al mesero (envía la peticion)
+Trabaja con un objeto futue
+Genera una peticion (Request)
+Es dependiente de la existencia del Servidor
+Relacion muchos a uno (N a 1)
+
+Asi se declara que sea asincrono el client
+future = self.client_.call_async(request)
 
 
 
@@ -106,7 +126,7 @@ __init__.py  primer_nodo.py
 aizen@asus-vivobook:/Data/mars_rover/ros2_ws/src/training_uno/training_uno$ 
 
 
-
+>Nota: siempre abrir el VSC dentro de src (/Data/mars_rover/ros2_ws/src code . )
 
 
 ---
