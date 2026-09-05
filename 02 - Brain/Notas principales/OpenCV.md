@@ -56,8 +56,36 @@ plt.clf()
 Esto limpia la figura actual de matplotlib.
 Como en este contexto se usa dentro de `while`, si no se limpia, cada nuevo histograma se iría dibujando encima del anterior.
 
+Sigue un proceso interesante, no es tal cual la librería, pero sirve para obtener el histograma separandolo por colores (BGR):
+```python
+#Se declara una tupla con los colores que matplotlib usara para dibujar cada canal
+color = ("b", "g", "r")
 
+#enumerate(color) da al mismo tiempo el indice y el valor
+#i = 0, col = "b"     |     canal 0 -> blue
+#i = 1, col = "g"     |     canal 0 -> green
+#i = 2, col = "r"     |     canal 0 -> red
+for i, col in enumerate(color)
+	histr = cv2.clcHist([src], [i], None, [256], [0, 256])
+	
+#[src]       → imagen que voy a analizar
+#[i]         → canal que quiero analizar
+#None        → no estoy usando máscara
+#[256]       → quiero 256 bins
+#[0, 256]    → rango de intensidades
+```
 
+Después:
+```python
+plt.plot(histr, color=col)
+```
+Dibujamos el histograma usando el color correspondiente.
+
+```python
+plt.draw()
+plt.pause(0.01)
+```
+Actualizamos la gráfica continuamente dentro de `while`.
 ## Procesar vídeo de la cámara
 Para abrir y procesar el vídeo de una cámara en tiempo real en Python, necesitas dos librerías fundamentales:
 - ``opencv-python (cv2)``: Es la librería principal.
@@ -158,6 +186,14 @@ En Python, cualquier imagen de OpenCV es una matriz NumPy. La propiedad `.shape`
 - **Canales (`dimensions[2]`):** La cantidad de capas de color (3 para BGR: Azul, Verde, Rojo).
 
 Esto nos sirve para medir él tamaño del vídeo entrante antes de iniciar el bucle y así calcular el tamaño que debía tener la ventana o la matriz de salida.
+### cv2.cvtColor
+Para el siguiente ejemplo, tomamos en cuenta que ya tenemos `src` gracias al metodo `cap.read`:
+
+```python
+gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+```
+
+El frame `src` viene en BGR, lo convertimos a escala de grises, así pasa de 3 canales a solo 1 canal.
 
 ## Cargar Imagen
 Para lograr cargar una imagen, hay que cuidar que la ruta en la que se encuentra no tenga caracteres especiales, así como este dentro del disco duro y no en carpetas como *OneDrive*, la manera más fácil de hacerlo es copiar la ruta de la imagen, y copearla en `imread
@@ -263,9 +299,62 @@ scale = cv2.getTrackbarPos('s', 'Figura 2')
 ```
 
 **Resumen del ciclo de vida de una Trackbar en OpenCV**
-- `cv2.createTrackbar(...)`: Registra e inicializa el elemento grafico en la memoria de OpenCV.
+- `cv2.createTrackbar(...)`: Registra e inicializa el elemento gráfico en la memoria de OpenCV.
 - **[[Callback]] obligatoria(`rot`, `trans`, etc.)**: Satisface el evento de cambio de estados.
 - `cv2.getTrackbarPos(...)`: Consulta la posición actual del control en el fotograma activo para inyectar ese parámetro en las matrices matemáticas.
+
+---
+## Métodos
+### Modificar contraste y Brillo
+1. Primero:
+```Python
+gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+```
+
+Tomas el frame `src`, que viene en BGR, y lo conviertes a escala de grises. Así pasas de 3 canales a 1 solo canal.
+
+2. Después:
+```python
+graymod = gray * 0.3 + 80*
+```
+Esta parte es la importante, la forma general es:
+`salida = entrada * alpha + beta`
+- `alfa` modifica el contraste.
+- `beta`modifica el brillo.
+
+Ejemplo si  (`gray`) pixel tiene valor de 200:
+`200 * 0.3 + 80= 140*
+
+3. Después viene:
+```python
+graymod = graymod.astype('uint8')
+```
+Esto vuelve a convertir la matriz al tipo de imagen de 8 bits, ya que al hacer la operación anterior, NumPy ya no mantiene necesariamente el tipo `uint8`, podría pasar a valores decimales.
+
+4. Luego:
+```python
+plothist(0, gray)
+plothist(1, graymod)
+```
+Mostramos los histogramas, estas funciones ya estaban definidas de la siguiente manera:
+```python
+def plothist(figure, img):
+	plt.figure(figure)
+	plt.clf()
+	gray_hist = cv2.calcHist([img], [0], None, [256], [0, 256])
+	plt.plot(gray_hist)
+	plt.xlim([0, 256])
+	plt.draw()
+	plt.pause(0.01)
+```
+
+5. Por ultimo:
+Mostramos ambas imagenes para compararlas visualmente.
+```python
+cv2.imshow("Gray", gray)
+cv2.imshow("Gray_mod", graymod)
+```
+
 
 
 
