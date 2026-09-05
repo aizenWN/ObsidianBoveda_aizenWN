@@ -315,12 +315,17 @@ Tomas el frame `src`, que viene en BGR, y lo conviertes a escala de grises. Así
 
 2. Después:
 ```python
-graymod = gray * 0.3 + 80*
+graymod = gray * 0.1 + 100*
 ```
 Esta parte es la importante, la forma general es:
 `salida = entrada * alpha + beta`
 - `alfa` modifica el contraste.
 - `beta`modifica el brillo.
+
+>Nota: 
+>Si alfa = 1 (Contraste Original)
+>Si alfa < 1 (Reducción de Contraste)
+>Si alfa > 1 (Aumento de Contraste)
 
 Ejemplo si  (`gray`) pixel tiene valor de 200:
 `200 * 0.3 + 80= 140*
@@ -353,6 +358,62 @@ Mostramos ambas imagenes para compararlas visualmente.
 ```python
 cv2.imshow("Gray", gray)
 cv2.imshow("Gray_mod", graymod)
+```
+
+### Automatizar contraste y brillo
+Si utilizamos el procesamiento anterior `graymod`
+EL cual fue reducido a una peor calidad que la original, podemos volverlo a utilizar como prueba para esta automatización y observar su resultado.
+
+1. Obtener valores min y max:
+`bajo`(Pixel más oscuro que existe en `graymod`)
+`alto` (Pixel más claro que existe en `graymod`)
+
+Una imagen después del procesamiento, o de manera nativa puede quedar con intensidades entre 90 ... 150
+
+Pero una imagen de 8 bits puede usar 0 a 255, así que podría estar desperdiciando un amplio rango de intensidades.
+```python
+bajo = graymod.min()
+alto = graymod.max()
+```
+
+2. Después tenemos:
+```python
+grayad = np.zeros((gray.shape[0], gray.shape[1], 1), np.uint8)
+```
+Esto es una imagen nueva llamada `grayad`.
+Con el mismo alto y ancho que `gray`
+```python
+gray.shape[0] #alto de la imagen
+gray.shape[1] #ancho de la imagen
+```
+
+>Nota: Recordemos que después de hacer manipulación de imagen, regresarla a uint8 mediante:
+
+```python
+grayad = grayad.astype('uint8')
+```
+
+
+3. Bucle `for` anidado
+Necesitamos un ciclo para recorrer filas y columnas ya que una imagen es una matriz 2D:
+```python
+for i in range(graymod.shape[0]):
+	for j in range(graymod.shape[1]):
+		grayad[i, j] = ((graymod[i, j] - bajo) / (alto - bajo)) * 255
+```  
+
+
+
+```python
+grayad = grayad.astype('uint8')
+
+# plothist(0, graymod)
+
+# plothist(1, grayad)
+
+# cv2.imshow("fig0", graymod)
+
+cv2.imshow("Adaptacion Automatica", grayad)
 ```
 
 
