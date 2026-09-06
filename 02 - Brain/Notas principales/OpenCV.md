@@ -409,6 +409,71 @@ cv2.imshow("Adaptacion Automatica", grayad)
 ```
 Podemos abrir `graymod`ya que es la imagen que queremos arreglar para comparar.
 
+### Ecualizacion Lineal
+```python
+# gray = cv2.cvtColor(src, cv2.COLOR_BGR2GRAY)
+H = acumulado(1, gray)
+Ieq = np.zeros((gray.shape[0], gray.shape[1], 1), np.uint8)
+
+for i in range(gray.shape[0]):
+	for j in range(gray.shape[1]):
+		v = gray[i, j]
+		Ieq[i][j] = H[gray[i][j]] * (255/(gray.shape[0]*gray.shape[1]))
+
+# # Acumulado eq:
+Heq = acumulado(2, Ieq)
+
+cv2.imshow("Ecualizacion lineal", Ieq)
+# cv2.imshow("Fig0", gray)
+```
+Utilizando la función definida como:
+```python
+def acumulado(figure, img):
+	gray_hist = cv2.calcHist([img], [0], None, [256], [0, 256])
+	
+	# Acumulado:
+	acc = 0
+	H = np.zeros(256)
+	for i in range(256):
+	H[i] = gray_hist[i] + acc
+	acc = H[i]
+	#plt.figure(figure)
+	#plt.clf()
+	#plt.plot(H)
+	#plt.draw()
+	#plt.pause(.001)
+	return H
+```
+
+### Alpha blend
+Para superponer imagen una con otra
+```python
+#bruno = cv2.imread(r'/home/aizen/Descargas/bruno.png')
+
+img = cv2.imread(r'/home/aizen/Descargas/perromeme.png')
+
+img = cv2.resize(img, ((src.shape[1], src.shape[0])))
+  
+alpha_value = (cv2.getTrackbarPos('alpha', 'alphablend') )/ 100
+
+outImage = cv2.addWeighted(img, alpha_value, src, 1-alpha_value, 0)
+
+cv2.imshow('Original', src)
+cv2.imshow('alphablend',outImage)
+```
+En este caso se está utilizando `src` para tomar los frame de la camara, pero también podemos hacerlo entre 2 imagenes como la primera línea comentada.
+
+Importante que los 2 sean del mismo tamaño y tengan la misma cantidad de canales (RGB o Gray), ya sea en video o en imagen.
+
+En las ultimás 2 lineas solo estamos mostrando la camara original y la camara con el efecto desplegado de sobreposición mediante el trackbar definido en la siguiente funcion:
+
+```python
+def alpha(x):
+	pass
+
+cv2.namedWindow('alphablend')
+cv2.createTrackbar('alpha', 'alphablend', 0, 100, alpha)
+```
 
 ---
 # Referencias
