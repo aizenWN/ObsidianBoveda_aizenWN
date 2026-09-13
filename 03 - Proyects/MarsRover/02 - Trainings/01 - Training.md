@@ -138,7 +138,7 @@ aizen@asus-vivobook:/Data/mars_rover/ros2_ws/src/training_uno/training_uno$
 
 # PYTHON O C++
 Python para calculos pesado
-C++ cuando son cosas de driver, comunicasion con hardware
+C++ cuando son cosas de driver, comunicacion con hardware.
 
 
 ---
