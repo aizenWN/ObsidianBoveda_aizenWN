@@ -38,6 +38,7 @@ Para OpenCV, una imagen no es más que una matriz de números (gracias a Numpy e
 import cv2
 import numpy as np
 import math
+import random
 from matplotlib import pyplot as plt
 ```
 
@@ -474,6 +475,22 @@ def alpha(x):
 cv2.namedWindow('alphablend')
 cv2.createTrackbar('alpha', 'alphablend', 0, 100, alpha)
 ```
+
+### Suavizado
+
+
+
+### Bordes
+
+### Mediana
+
+
+
+
+
+
+
+
 
 ---
 # Referencias
