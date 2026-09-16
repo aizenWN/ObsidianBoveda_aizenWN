@@ -301,7 +301,7 @@ scale = cv2.getTrackbarPos('s', 'Figura 2')
 
 **Resumen del ciclo de vida de una Trackbar en OpenCV**
 - `cv2.createTrackbar(...)`: Registra e inicializa el elemento gráfico en la memoria de OpenCV.
-- **[[Callback]] obligatoria(`rot`, `trans`, etc.)**: Satisface el evento de cambio de estados.
+- **[[Callback 1]] obligatoria(`rot`, `trans`, etc.)**: Satisface el evento de cambio de estados.
 - `cv2.getTrackbarPos(...)`: Consulta la posición actual del control en el fotograma activo para inyectar ese parámetro en las matrices matemáticas.
 
 ---
