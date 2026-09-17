@@ -43,10 +43,4 @@ RViz  <-  (Graficos de lo que ve el robot)
 4. Visualizar en RViz.
 
 
-
-
-
-
-
-
 # Referencias

@@ -59,5 +59,15 @@ Finalmente tenemos a intensities, el cual hace referencia que que tan fuerte fue
 
 >Tambien nos podemos encontrar con valores leidos como .nan, esto se refiere a que no se capturo un valor.
 
+
+
 ---
+# Herramientas
+Se descargo y utilizo la herramienta de `rqt_plot`para visualizar mediante graficas la información de nuestros angulos para el lidar, de está manera, verificar que si este leyendo solamente su parte frontal, así como el lateral derecho e izquierdo de la parte frontal.
+
+El comando que se utilizo eso: `ros2 run rqt_plot rqt_plot`.
+Una vez dentro, se escribio el el [[Capa 7 (Lógica)|topico]] de nuestro publisher (Ejemplo /distancia_frontal/data), solo que entramos a su parte de `/data`, ya que solo nos interesa nuestros mensajes tipo Float32, no necesitamos ver la información completa de este.
+
+La ultima actualizacion fue el que tipo de mensaje que utilizamos ahora es un array declarado como `Float32Array`, así que, para acceder a el es mendiante: `/distancia_frontal/data[0...114]`
+
 # Referencias

@@ -80,7 +80,7 @@ Ejemplo: ros2 topi (tab x2) despliega: echo, list, etc.
 - ros2 interface show
 - rqt (Nos abre (algo) nos vamos a la partes de plugins/topics/message publisher) por corroborar
 - rqt_graph (Creo que podemos ver  como está la conexion entre publisher y suscribers, algo asi)
-- 
+- rqt_plot
 
 ## Clientes y servicios
 
@@ -121,6 +121,7 @@ future = self.client_.call_async(request)
 - ros2 interface show example_interfaces/srv/AddTwoInts
 - ros2 interface list | grep msg/actions/
 - rqt_graph (está interfaz para observar la comunicacion)
+- rqt_plot
 
 
 
