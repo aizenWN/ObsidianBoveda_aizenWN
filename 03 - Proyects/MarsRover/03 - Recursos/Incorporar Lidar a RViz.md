@@ -24,7 +24,17 @@ cd ~
 mkdir -p ldlidar_ros2_ws/src 
 cd ~/ldlidar_ros2_ws/src
 ```
-Esto de preferencia dentro del proyecto, osea de nuestros /ros2_ws
+Esto de preferencia fuera del proyecto que tenemos, osea, a la misma altura de nuestro `/ros2_ws` (si es que ya tienes un workspace dediaco a `ros2_ws`).
+
+Entonces quedaria una ruta como: 
+```
+/Tu_workspace_de_ros
+	/ros2_ws
+		/src
+	/ldlidar_ros2_ws
+		/src
+```
+Entonces, una vez dentro de la carptea `ldlidar_ros2_ws/src`:
 
 2. Clonamos el repositorio oficial:
 ```
