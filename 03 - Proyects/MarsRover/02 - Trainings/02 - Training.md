@@ -52,5 +52,18 @@ Terminal: `ros2 run <Nombre del paquete donde esta tu nodo> <Nombre del ejecutab
 kill id -a pid (process ID)
 Se puede matar un comando mediante su ID en la terminal si no muere con Ctrl + C
 
+## Mandar info a un service 
+En este caso se utilizo nuestro propuio custom interfaces
+
+`ros2 service call </topico> <ruta_del_custom_interfaces> "{clave: valor, clave: valor... etc.}"`.
+
+Con clave:valor nos referimos a que la clave seria el nombre de la variable que del custom_interfaces que estamos utilizando y el valor es el dato a enviarle.
+
+>Siempre recordar que nuestra clave sera de un tipo de dato en especifico, el ejemplo de abajo, estamos enviando un tipo de dato int64, seguido por un bool.
+
+**Ejemplo:**
+`ros2 service call /control_led prueba_custom_interfaces/srv/SetLedState "{led_id: 4, estado: True}"`.
+
+
 ---
 # Referencias
