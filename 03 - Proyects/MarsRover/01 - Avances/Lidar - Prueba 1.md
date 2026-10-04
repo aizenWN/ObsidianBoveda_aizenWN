@@ -9,7 +9,7 @@ Relacionado:
   - "[[ROS]]"
 ---
 # Introducción
-Esta es la primera nota de documentación sobre mi proceso de prueba para que el [[Sensor Lidar|Lidar]] sea detectado por un computador computador correctamente.
+Esta es la primera nota de documentación sobre mi proceso de prueba para que el [[Sensor Lidar|Lidar]] sea detectado por un correctamente.
 
 ---
 # Desarrollo
