@@ -484,13 +484,156 @@ cv2.createTrackbar('alpha', 'alphablend', 0, 100, alpha)
 
 ### Mediana
 
+### Segmentacion por Color (RGB|BGR)
+Lo mejor antes de aplicar segmentacion por color es obtener una muestra que contenga el color buscado, está muestra preferentemente deberia estar tomada en un entorno de iluminacion normal (no un entorno controlado, que tenga una cantidad normal de luces y sombras), para que nuestro filtro siga detectando el color buscado en diferentes entornos y no sea tan estricto.
 
+#### Muestra ROI
 
+Lo podemos hacer mediante el siguiente script:
+```python
+# Despliega video y espera por "q" para hacer la captura
+# con el mouse seleccionar la ROI y tecla enter
 
+import cv2
 
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
+while True:
+    _, I = cap.read()
+    cv2.imshow("I", I)
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+cv2.destroyAllWindows()
 
+roi = cv2.selectROI(I)
+print(roi)
 
+# Seleccionar ROI de I
+roi_cropped = I[int(roi[1]):int(roi[1]+roi[3]), int(roi[0]):int(roi[0]+roi[2])]
 
----
-# Referencias
+# mostrar ROI
+cv2.imshow("ROI", roi_cropped)
+cv2.imwrite("<directorio.jpeg>", roi_cropped)
+
+cv2.waitKey(0)
+
+```
+Obtenemos la region de interes (ROI)
+
+Se despliega la camara (o también podria ser una imagen), después presionando "q" salimos de la imagen pero no sin antes seleccionar la zona ROI de interes, una vez seleccionada presionamos Enter, finalmente escribimos el directorio en imwrite donde se va a guardar nuestra muestra.
+
+#### Fiiltro segmentacion
+Ahora vamos a aplicar el filtro, utilizando el color de la muestra que acabamos de obtener directamente a nuestra camara en tiempo real:
+
+```python
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+def s(x):
+	pass
+
+cv2.namedWindow('Deteccion')
+cv2.createTrackbar('s', 'Deteccion', 1, 5, s)
+```
+Creamos una ventana con un [[Callback|callback]] `trackbar`para ajustar la intensidad de nuestra deteccion evaluada con `s`, en este caso controla el numero de desviaciones estandar que queremos alejarnos de la media.
+- `s pequeña (1)`: rango muy estrecho o estricto
+- `s grande(3 | 4)`: rango muy amplio o permisivo.
+
+Capturamos video y leemos nuestra imagen de muestra `Iroi`:
+```python
+cap = cv2.VideoCapture(0)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
+## LEER LA IMAGEN DE MUESTRA
+Iroi = cv2.imread('/Data/OpenCV/Practica 6/roi_cropped.jpeg')
+b, g, r = cv2.split(Iroi)
+```
+
+`cv2.split` toma una imagen multicanal (imagen a color Alto x Ancho x 3 canales) y la divide sus canales individuales de un solo canal (imagenes en escala de grises Alto x Ancho).
+
+- `b`: Contiene intensidad del color Azul 0 a 255.
+- `g`: Contiene intensidad del color Verde 0 a 255.
+- `r`: Contiene intensidad del color Rojo 0 a 255.
+
+Esto nos permitira calcular la media con `np.mean`y la desviacion estandar `np.std` de cada color por separado para construir los umbrales del filtro como vemos a continuacion:
+```python
+# Media
+Ar = np.mean(r)
+Ag = np.mean(g)
+Ab = np.mean(b)
+
+# Convertir a float64
+Rd = r.astype(np.float64)
+Gd = g.astype(np.float64)
+Bd = b.astype(np.float64)
+
+# std
+Dr = np.std(Rd)
+Dg = np.std(Gd)
+Db = np.std(Bd)
+```
+
+A continuacion entramos al bucle while de deteccion:
+```python
+
+while True:
+	s_val = cv2.getTrackbarPos('s', 'Deteccion') #Asignamos el valor de trackbar a s_val
+	_, I = cap.read() #Asignamos nuestra captura de video
+
+	if I is None:
+		break
+
+## -----------AQUI VA LA SEGMENTACIÓN -------------
+# Calculamos los límites BGR usando laq fórmula (Ar ± s * Dr, etc.)
+lower_bound = np.array([Ab - s_val * Db, Ag - s_val * Dg, Ar - s_val * Dr], dtype=np.float32)
+upper_bound = np.array([Ab + s_val * Db, Ag + s_val * Dg, Ar + s_val * Dr], dtype=np.float32)
+
+# Restringimos a los valores válidos de píxel [0, 255]
+lower_bound = np.clip(lower_bound, 0, 255).astype(np.uint8)
+upper_bound = np.clip(upper_bound, 0, 255).astype(np.uint8)
+
+# Genera la imagen binaria IBW equivalente a tu bucle
+IBW = cv2.inRange(I, lower_bound, upper_bound)
+
+## -----------------------------------------------
+```
+
+Dentro del mismo bucle while continuamos con:
+```python
+try:
+	white_pixels = np.array(np.where(IBW == 255))
+	min_fila = np.min(white_pixels[0, :])
+	min_col = np.min(white_pixels[1, :])
+	max_fila = np.max(white_pixels[0, :])
+	max_col = np.max(white_pixels[1, :])
+	
+	start = (min_col, min_fila)
+	end = (max_col, max_fila)
+	I = cv2.rectangle(I, start, end, (0, 255, 0), 2)  
+	
+	center2 = min_fila + (max_fila - min_fila) / 2
+	center1 = min_col + (max_col - min_col) / 2
+	I = cv2.circle(I, (int(center1), int(center2)), 10, (0, 255, 255), -1)
+
+	except Exception:
+		pass
+```
+
+Finalmente mostramos nuestra ventana de resultados, la imagen de muestra, video original con el bloque de deteccion y la ventana mascara con el filtro de segmentacion:
+```python
+	cv2.imshow("Muestra", Iroi)
+	#Utilizamos la misma ventana vacia con el trackbar que creamos al principio para mostrar el video "I"
+	cv2.imshow('Deteccion', I)
+	cv2.imshow('Mascara Binaria', IBW)
+	
+	if cv2.waitKey(1) & 0xFF == ord("q"):
+		break
+
+#Fuera de bucle while
+cap.release()
+cv2.destroyAllWindows()
+```
