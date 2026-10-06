@@ -46,7 +46,7 @@ Agregar directamente un plugin de diferencia que genere movimiento:
 /cmd_vel
 |
 v
-plugin
+plugin (DiffDrive)
 |
 v
 wheel joints
