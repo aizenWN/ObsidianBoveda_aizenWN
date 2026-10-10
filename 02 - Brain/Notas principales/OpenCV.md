@@ -637,3 +637,13 @@ Finalmente mostramos nuestra ventana de resultados, la imagen de muestra, video 
 cap.release()
 cv2.destroyAllWindows()
 ```
+
+## Operaciones Morfologicas
+
+### Erosion
+
+### Dilatacion
+
+### Deteccion de Bordes
+
+### Detección Básico de Movimiento
