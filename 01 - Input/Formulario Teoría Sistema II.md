@@ -129,15 +129,21 @@ $\frac{1}{s²-3s}$
 
 $\frac{1}{5}e^{-2t} - \frac{1}{5}cos(t) + \frac{17}{5}sin(t)$
 
+- Funcion de Transferencia:
+$\frac{Y(s)}{X(s)} = \frac{s+1}{s+2}$
 
+$\frac{Y(s)}{X(s)} = \frac{s+1}{s²+5s+6} = \frac{s+1}{(s+3)(s+2)}$
 
+$9x''(t)+12x'(t)+13x(t)=2u'(t)+3u(t)$
+Tranferencia:
+$\frac{X(s)}{U(s)}=\frac{2s+3}{9s²+12s+13}$
 
+Impulso:
+$x''(t)+5x'(t)+6x(t)=5u(t)$
 
-
-
-
-
-
+$my''(t)+by'(t)+ky(t)=u(t)$
+Transferencia:
+$\frac{Y(s)}{U(s)}=\frac{1}{ms²+bs+k}$
 
 
 
