@@ -12,6 +12,8 @@ Relacionado:
 # Introducción
 En este archivo se abordaran muchas cosas relacionadas a Nav2 siguiendo su pagina web oficial y guía: https://docs.nav2.org/rolling/
 
+Resumen de Información: [[Resumen Nav2]]
+
 ---
 # Conceptos Clave
 
@@ -223,9 +225,6 @@ La guía también presenta dos enfoques de arquitectura:
 
 >Ambos enfoques son posibles. Un árbol de comportamientos de nivel superior podría coordinar esas decisiones con Nav2.
 
-
-
-
 ### Conclusion
 Hay tres conceptos que no debes confundir:
 
@@ -233,11 +232,149 @@ Hay tres conceptos que no debes confundir:
 - **Plugin**: implementa el algoritmo concreto.
 - **Alias**: identifica la tarea o configuración asociada al plugin.
 
+## State Estimation
+Estimación de estado. 
+La idea central es distinguir dos cosas: **donde cree el sistema que está el robot en el mapa y como estima su movimiento local**.
 
+### ¿Que es TF y por que necesita esos Frames?
+En [[ROS]] 2, los _frames_ son sistemas de referencia que permiten expresar posiciones y orientaciones.
 
+Por ejemplo, un Robot puede tener frames como:
 
+- `map`: referencia global del mapa.
+- `odom`: referencia local que sigue el movimiento estimado del robot.
+- `base_link`: referencia unida al cuerpo del robot.
+- `base_laser`: referencia del LiDAR.
 
+ROS 2 utiliza **TF2** para conocer las transformaciones entre esos sistemas de referencia y cómo cambian con el tiempo.
+
+La estructura mínima que recomienda la guía es:
+```
+map
+ └── odom
+      └── base_link
+           ├── base_laser
+           └── imu_link
+```
+Cada conexión representa una transformación entre dos frames.
+
+Por ejemplo, la transformación `base_link → base_laser` permite conocer dónde está montado el LiDAR respecto al cuerpo del Robot.
+
+### ¿Por que necesitamos map y odom separados?
+Los encoders pueden estimar ese desplazamiento, pero sus errores se acumulan. Por ejemplo, las ruedas pueden deslizarse o sus medidas pueden no ser exactas.
+
+Este fenómeno se conoce como **deriva odométrica**.
+
+Para comprender cómo se resuelve, debemos distinguir los dos frames.
+
+`odom`: el movimiento local
+
+El frame `odom` proporciona una referencia local continua y suave.
+
+Sirve para estimar cómo se mueve Maya de un instante al siguiente.
+
+Sin embargo, su posición puede desviarse progresivamente de la posición real.
+
+`map`: la referencia global
+
+El frame `map` representa la referencia global utilizada para la navegación.
+
+Un sistema de localización, como AMCL, puede estimar dónde se encuentra el Robot dentro de un mapa conocido y corregir su posición global.
+
+Por eso separamos las transformaciones:
+
+- `odom → base_link`: sigue el movimiento estimado localmente.
+- `map → odom`: relaciona esa estimación local con la referencia global.
+
+Así, el sistema puede mantener un movimiento local suave y, a la vez, corregir su posición respecto al mapa.
+
+### ¿Qué diferencia hay entre localización y SLAM?
+La guía menciona dos opciones principales de Nav2.
+
+**Localización:** El Robot dispone de un mapa y necesita determinar dónde está dentro de él.
+
+Por ejemplo, utilizas un mapa creado previamente y AMCL compara las observaciones del LiDAR con ese mapa para estimar la posición del robot.
+
+**SLAM:** El Robot construye un mapa mientras estima su propia posición durante la exploración.
+
+En ambos casos, el sistema de posicionamiento debe proporcionar la transformación `map → odom` para que la arquitectura de navegación funcione según lo esperado.
+
+Y un detalle importante: **Nav2 no exige utilizar un LiDAR**. También es posible utilizar cámaras, sensores de profundidad, GPS u otras fuentes de posicionamiento y detección, siempre que se proporcionen las interfaces y transformaciones necesarias.
+
+### ¿Qué es la odometría y qué hace robot_localization?
+
+La **odometría** estima el movimiento del robot a partir de sensores.
+
+Por ejemplo, el robot puede disponer de:
+
+- Encoders de las ruedas.
+- Una IMU que mide aceleraciones y velocidades angulares.
+- Una cámara que estima el movimiento mediante visión.
+
+Cada sensor tiene limitaciones. Los encoders pueden sufrir deslizamientos, mientras que una IMU puede acumular errores al integrar sus mediciones.
+
+El paquete `robot_localization` permite fusionar información de múltiples sensores mediante filtros de estimación, como el filtro de Kalman extendido (EKF).
+
+Un esquema conceptual sería:
+
+```
+Encoders ───┐
+	        │
+IMU ────────┼──> robot_localization
+            │          │
+Visión ─────┘          ├──> Odometry
+                       └──> odom → base_link
+```
+
+Este esquema supone que las fuentes están configuradas para proporcionar esas entradas. No todos los sensores tienen que utilizarse, y la salida depende de la configuración.
+
+La finalidad es obtener una estimación de movimiento más estable aprovechando las ventajas de diferentes sensores.
+### Resumen visual: cómo se relaciona todo
+
+```
+               MAPA GLOBAL
+                    │
+            Localización / SLAM
+                    │
+                 map → odom
+                    │
+                    ▼
+                   odom
+                    │
+             Sistema odométrico
+                    │
+              odom → base_link
+                    │
+                    ▼
+                base_link
+                 /      \
+                /        \
+          base_laser    imu_link
+```
+
+La idea que debes retener es que Nav2 necesita una cadena de referencias consistente para relacionar el mapa, la posición del robot y los sensores.
+
+No basta con tener los sensores funcionando: **sus mediciones deben estar correctamente relacionadas con los frames que utiliza la navegación**.
+
+**Repaso rápido**
+- **`map → odom`:** localización global o SLAM.
+- **`odom → base_link`:** estimación del movimiento local.
+- **`base_link → sensores`:** ubicación de los sensores respecto al robot.
+- **TF2:** gestiona las transformaciones entre frames.
+- **`robot_localization`:** permite fusionar sensores para mejorar la estimación del estado.
+## Environmental Represemntation
+La idea principal: **Nav2 utiliza costmaps para representar qué tan conveniente o peligroso es atravesar cada zona.**
+
+- **Costmap:** cuadrícula 2D con celdas que representan espacio libre, obstáculos, zonas desconocidas y costos de proximidad a obstáculos.
+- **Layers:** incorporan información de sensores, como LiDAR o cámaras, para actualizar el costmap.
+- **Costmap Filters:** modifican el comportamiento según zonas marcadas en un mapa, por ejemplo, áreas prohibidas o zonas con velocidad limitada.
+- **Otras representaciones:** mapas 3D, mapas de pendientes y modelos basados en objetos detectados mediante aprendizaje automático.
+
+**Aplicado a un Robot:** el planificador utiliza el costmap global para calcular rutas; el controlador utiliza el costmap local para decidir cómo moverse evitando obstáculos.
+
+Una distinción importante: **las layers representan e incorporan información del entorno; los filters permiten aplicar reglas espaciales específicas**, como prohibir el paso por una zona.
 
 
 ---
+
 # Referencias

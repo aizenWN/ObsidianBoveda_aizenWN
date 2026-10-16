@@ -14,7 +14,7 @@ Esta nota servirá para acumular propuestas hacia variadas dirigidas a integrar 
 # Desarollo
 
 ## Dudas
-- [ ] Ya se construye Nav2 desde su código fuente o se utilizan solamente los paquetes necesarios para su utilización (build ya armada o compilación propia).
+- [x] Ya se construye [[Nav2]] desde su código fuente o se utilizan solamente los paquetes necesarios para su utilización (build ya armada o compilación propia).
 - [ ] 
 
 
