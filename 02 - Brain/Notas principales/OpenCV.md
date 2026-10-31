@@ -647,3 +647,9 @@ cv2.destroyAllWindows()
 ### Deteccion de Bordes
 
 ### Detección Básico de Movimiento
+
+## Transformada de Hough
+
+## Descirptores
+
+###  Recrear imagen panoramica
